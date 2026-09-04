@@ -48,6 +48,11 @@
           <input type="file" id="csv-file-input" accept=".csv" class="hidden">
         </label>
 
+        <button onclick="actualizarDesdeGoogleSheets()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition shadow-sm hover:shadow">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          <span>Actualizar desde Google Sheets</span>
+        </button>
+
         <button onclick="exportToExcel()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition border border-slate-700 shadow-sm">
           <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
           <span>Exportar Apertura</span>
@@ -61,13 +66,13 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 space-y-2">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
     <!-- NOTIFICATION / TOAST -->
     <div id="toast-banner" class="hidden rounded-lg p-3 text-sm flex items-center justify-between transition-all"></div>
 
     <!-- FILTER PANEL -->
-    <section class="bg-white rounded-2xl p-2 shadow-sm border border-slate-200/80">
+    <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80">
       <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
         <div class="flex items-center gap-2 text-slate-700 font-semibold text-sm">
           <i data-lucide="sliders-horizontal" class="w-4 h-4 text-sky-600"></i>
@@ -109,7 +114,7 @@
             <span>3. Fuente de Financiamiento</span>
           </label>
           <select id="select-ff" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition font-medium">
-            <option value="ALL">Todas las Fuentes</option>
+            <option value="ALL">Todas las Fuentes (FF 11 y FF 13)</option>
             <option value="11">FF 11 - Rentas Generales</option>
             <option value="13">FF 13 - Recursos con afactación específica</option>
           </select>
@@ -119,7 +124,7 @@
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1">
             <i data-lucide="tag" class="w-3.5 h-3.5 text-slate-400"></i>
-            <span>4. Rubro Afectado</span>
+            <span>Rubro Afectado</span>
           </label>
           <select id="select-rubro" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition font-medium">
             <option value="ALL">Todos los Rubros</option>
@@ -127,56 +132,8 @@
         </div>
       </div>
 
-      <!-- SECOND FILTER ROW -->
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-
-  <!-- 5. Incisos -->
-  <div>
-    <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1">
-      <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
-      <span>5. Incisos</span>
-    </label>
-    <select id="select-inciso" onchange="applyFilters()"
-      class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition font-medium">
-      <option value="ALL">Todos los Incisos</option>
-      <option value="2">2 - Bienes de Consumo</option>
-      <option value="3">3 - Servicios No Personales</option>
-      <option value="4">4 - Bienes de Uso</option>
-      <option value="5">5 - Transferencias</option>
-    </select>
-  </div>
-
-  <!-- 6. Excluir PROSEVITRA -->
-  <div>
-    <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1">
-      <i data-lucide="filter-x" class="w-3.5 h-3.5 text-slate-400"></i>
-      <span>6. Excluir PROSEVITRA 5.3.3.50</span>
-    </label>
-    <select id="select-prosevitra" onchange="applyFilters()"
-      class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition font-medium">
-      <option value="NO">No</option>
-      <option value="SI">Sí</option>
-    </select>
-  </div>
-
-  <!-- 7. Control de CUPO -->
-  <div>
-    <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1">
-      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-slate-400"></i>
-      <span>7. Control de CUPO</span>
-    </label>
-    <select id="select-cupo" onchange="applyFilters()"
-      class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition font-medium">
-      <option value="ALL">Todos</option>
-      <option value="SI">Sí</option>
-      <option value="NO">No</option>
-    </select>
-  </div>
-
-</div>
-
       <!-- Filter status badge -->
-      <div id="filter-status-bar" class="mt-3.5 pt-1 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+      <div id="filter-status-bar" class="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
         <div class="flex items-center gap-1.5">
           <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
           <span id="filter-active-desc">Mostrando: Ministerio de Transporte Completo</span>
@@ -187,7 +144,7 @@
 
     <!-- KPI CARDS -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
         <div class="flex items-center justify-between text-slate-500 mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Crédito Vigente</span>
           <div class="p-2 bg-sky-50 text-sky-600 rounded-xl">
@@ -201,7 +158,7 @@
         <div class="absolute bottom-0 left-0 right-0 h-1 bg-sky-500"></div>
       </div>
 
-      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
         <div class="flex items-center justify-between text-slate-500 mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Crédito Disponible</span>
           <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
@@ -215,7 +172,7 @@
         <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
       </div>
 
-      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
         <div class="flex items-center justify-between text-slate-500 mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Ejecutado</span>
           <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
@@ -229,7 +186,7 @@
         <div class="absolute bottom-0 left-0 right-0 h-1 bg-indigo-500"></div>
       </div>
 
-      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
         <div class="flex items-center justify-between text-slate-500 mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">% de Ejecución</span>
           <div id="kpi-pct-icon-bg" class="p-2 bg-amber-50 text-amber-600 rounded-xl">
@@ -9077,11 +9034,38 @@
       initApp();
     });
 
+    const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgRvyzQJPgwWKAzQK2LgNuoeNXHLmchKGHQQt3kgjdyYpi-PBL7-BWFBE-CZOnjQgtoDnMR7p4a8qa/pub?output=csv';
+
     function initApp() {
       document.getElementById('label-fecha-corte').textContent = DB.fechaCorte;
       populateFilterOptions();
       applyFilters();
       setupFileInput();
+      // Primero muestra los datos embebidos y luego intenta sincronizar con Google Sheets.
+      actualizarDesdeGoogleSheets(true);
+    }
+
+    async function actualizarDesdeGoogleSheets(silencioso = false) {
+      if (!silencioso) showToast('Actualizando datos desde Google Sheets...', 'info');
+      try {
+        const separator = GOOGLE_SHEETS_URL.includes('?') ? '&' : '?';
+        const url = `${GOOGLE_SHEETS_URL}${separator}_=${Date.now()}`;
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        if (!csvText || csvText.length < 100) throw new Error('La respuesta de Google Sheets está vacía o incompleta.');
+
+        const ok = parseNewParametrizadoCsv(csvText, 'Google Sheets', true);
+        if (!ok) throw new Error('El CSV recibido no contiene registros presupuestarios válidos.');
+        if (!silencioso) showToast(`Datos actualizados desde Google Sheets: ${DB.records.length} registros.`, 'success');
+      } catch (err) {
+        console.error('Error actualizando desde Google Sheets:', err);
+        if (silencioso) {
+          showToast('No se pudo actualizar automáticamente. Se mantienen los datos cargados en el Dashboard.', 'error');
+        } else {
+          showToast('No se pudo actualizar desde Google Sheets. Se mantienen los datos actuales.', 'error');
+        }
+      }
     }
 
     function populateFilterOptions() {
@@ -9153,9 +9137,6 @@
       document.getElementById('select-actividad').value = 'ALL';
       document.getElementById('select-ff').value = 'ALL';
       document.getElementById('select-rubro').value = 'ALL';
-      document.getElementById('select-inciso').value = 'ALL';
-      document.getElementById('select-prosevitra').value = 'NO';
-      document.getElementById('select-cupo').value = 'ALL';
       document.getElementById('search-imputaciones').value = '';
       onProgramaChange();
     }
@@ -9165,9 +9146,6 @@
       const actVal = document.getElementById('select-actividad').value;
       const ffVal = document.getElementById('select-ff').value;
       const rubroVal = document.getElementById('select-rubro').value;
-      const incisoVal = document.getElementById('select-inciso').value;
-      const prosevitraVal = document.getElementById('select-prosevitra').value;
-      const cupoVal = document.getElementById('select-cupo').value;
 
       activeFilteredRecords = DB.records.filter(r => {
         if (r.inc === 1) return false;
@@ -9179,24 +9157,6 @@
         
         if (ffVal !== 'ALL' && r.ff !== Number(ffVal)) return false;
         if (rubroVal !== 'ALL' && r.rubro !== Number(rubroVal)) return false;
-        if (incisoVal !== 'ALL' && r.inc !== Number(incisoVal)) return false;
-
-        // PROSEVITRA
-        function esPROSEVITRA(r) {
-          return r.inc === 5 && r.pp === 3 && r.pparc === 3 && r.psub === 50;
-        }
-        if (prosevitraVal === 'SI' && esPROSEVITRA(r)) return false;
-
-        // CONTROL DE CUPO
-        function noControlaCupo(r) {
-          return (
-                  (r.inc === 3 && r.pp === 5 && r.pparc === 4) || // 3.5.4
-                  (r.inc === 3 && r.pp === 1)                     // 3.1
-                  );
-        }
-        if (cupoVal === 'SI' && noControlaCupo(r)) return false;
-        if (cupoVal === 'NO' && !noControlaCupo(r)) return false;
-
         return true;
       });
 
@@ -9218,24 +9178,6 @@
           if (rubroVal === '0') desc.push('0 - Rentas Generales');
           else if (rubroVal === '133') desc.push('133 - Licencias');
           else if (rubroVal === '134') desc.push('134 - Multas');   
-        }
-        
-        if (incisoVal !== 'ALL') {
-          const nombresInciso = {
-            2: 'Inciso 2 - Bienes de Consumo',
-            3: 'Inciso 3 - Servicios No Personales',
-            4: 'Inciso 4 - Bienes de Uso',
-            5: 'Inciso 5 - Transferencias'
-          };
-          desc.push(nombresInciso[incisoVal] || `Inciso ${incisoVal}`);
-        }
-        if (prosevitraVal === 'SI') {
-          desc.push('Sin 5.3.3.50 - PROSEVITRA');
-        }
-        if (cupoVal === 'SI') {
-          desc.push('Partidas CON Control de CUPO');
-        } else if (cupoVal === 'NO') {
-          desc.push('Partidas SIN Control de CUPO');
         }
       }
 
@@ -9340,7 +9282,8 @@
         { code: 'PRO', level: 1, label: 'PROSEVITRA (5.3.3.50)', sub: subPRO },
         { code: 'BOL', level: 1, label: 'Boleto Especial Educativo (5.3.5.25)', sub: subBoleto },
         { code: 'CSGV', level: 1, label: 'Concientizaciónde la Seguridad Vial (5.4.2.918)', sub: subConSG },
-        { code: 'FONDO', level: 1, label: 'Fondo Municipal (5.4.2.973)', sub: subFondo }   
+        { code: 'FONDO', level: 1, label: 'Fondo Municipal (5.4.2.973)', sub: subFondo },
+        { code: 'RESTO5', level: 1, label: '5. Resto', calc: 'RESTO5' }
       ];
 
       const resDict = {};
@@ -9360,7 +9303,19 @@
           const viat = resDict['VIAT'];
           const mov = resDict['MOV'];
           vig = Math.max(0, tot.vig - bas.vig - seg.vig - viat.vig - mov.vig);
-          disp = Math.max(0, tot.disp - bas.disp - seg.disp- viat.disp - mov.disp);        
+          disp = Math.max(0, tot.disp - bas.disp - seg.disp- viat.disp - mov.disp);
+        } else if (d.calc === 'RESTO5') {
+          const tot = resDict['INC5'];
+          const amba = resDict['AMBA'];
+          const intR = resDict['INT'];
+          const fluv = resDict['FLUV'];
+          const tcor = resDict['TCOR'];
+          const pro = resDict['PRO'];
+          const bol = resDict['BOL'];
+          const csgv = resDict['CSGV'];
+          const fondo = resDict['FONDO'];
+          vig = Math.max(0, tot.vig - amba.vig - intR.vig - fluv.vig - tcor.vig - pro.vig - bol.vig - csgv.vig - fondo.vig);
+          disp = Math.max(0, tot.disp - amba.disp - intR.disp - fluv.disp - tcor.disp - pro.disp - bol.disp - csgv.disp - fondo.disp);
         } else {
           vig = d.sub.reduce((acc, r) => acc + r.vig, 0);
           disp = d.sub.reduce((acc, r) => acc + r.disp, 0);
@@ -9695,7 +9650,7 @@
         reader.onload = function(evt) {
           try {
             const text = evt.target.result;
-            parseNewParametrizadoCsv(text);
+            parseNewParametrizadoCsv(text, 'archivo CSV', false);
           } catch (err) {
             console.error(err);
             showToast('Error al parsear el archivo CSV: ' + err.message, 'error');
@@ -9705,7 +9660,7 @@
       });
     }
 
-    function parseNewParametrizadoCsv(csvText) {
+    function parseNewParametrizadoCsv(csvText, origen = 'archivo CSV', silencioso = false) {
       const lines = csvText.split(/\r?\n/);
       let detectedDate = DB.fechaCorte;
 
@@ -9725,8 +9680,8 @@
       }
 
       if (headerIdx === -1) {
-        showToast('No se encontró la cabecera presupuestaria en el archivo CSV.', 'error');
-        return;
+        if (!silencioso) showToast(`No se encontró la cabecera presupuestaria en ${origen}.`, 'error');
+        return false;
       }
 
       const dataLines = lines.slice(headerIdx).join('\n');
@@ -9759,7 +9714,7 @@
               psub: parseInt(row['Partida Subparcial'], 10) || 0,
               ff: parseInt(row['Fuente Fin.'], 10) || 0,
               rubro: parseInt(row['Rubro Afectado'], 10) || 0,
-              desc: (row['Objeto Gasto'] || '').trim(),
+              desc: (row['Objeto Gasto'] || row['Descripción'] || row['Descripcin'] || row['Descripcion'] || '').trim(),
               sanc: parseNum(row['Sanción'] || row['Sancin'] || row['Sancin']),
               vig: parseNum(row['Vigente']),
               disp: parseNum(row['Disponible']),
@@ -9771,19 +9726,22 @@
           });
 
           if (parsedRecords.length === 0) {
-            showToast('No se pudieron extraer registros válidos del CSV.', 'error');
-            return;
+            if (!silencioso) showToast(`No se pudieron extraer registros válidos de ${origen}.`, 'error');
+            return false;
           }
 
           DB.fechaCorte = detectedDate;
           DB.records = parsedRecords;
 
           document.getElementById('label-fecha-corte').textContent = DB.fechaCorte;
-          showToast(`¡Datos actualizados con éxito! Se cargaron ${parsedRecords.length} registros con fecha ${detectedDate}.`, 'success');
+          if (!silencioso) {
+            showToast(`¡Datos actualizados con éxito! Se cargaron ${parsedRecords.length} registros con fecha ${detectedDate}.`, 'success');
+          }
           
           resetFilters();
         }
       });
+      return DB.records === parsedRecords && parsedRecords.length > 0;
     }
 
     function showToast(msg, type) {
